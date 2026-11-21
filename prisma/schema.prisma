@@ -1,0 +1,106 @@
+generator client {
+    provider = "prisma-client"
+    output   = "../app/generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+enum JobStatus {
+    SUCCESS
+    FAILED
+}
+
+enum EmailTokenType {
+    VERIFY_EMAIL
+    RESET_PASSWORD
+}
+
+model User {
+    id              String    @id @default(cuid())
+    email           String    @unique
+    name            String
+    passwordHash    String
+    emailVerifiedAt DateTime?
+
+    // Free trial: har naye user ke 5 credits
+    credits Int @default(5)
+
+    sessions    Session[]
+    emailTokens EmailToken[]
+    jobs        ImageJob[]
+    purchases   CreditPurchase[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// Login session. DB mein token ka hash rakhte hain, asli token sirf cookie mein.
+model Session {
+    id        String   @id @default(cuid())
+    tokenHash String   @unique
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userAgent String?
+    expiresAt DateTime
+    createdAt DateTime @default(now())
+
+    @@index([userId])
+}
+
+// Email verify (aur baad mein password reset) ke tokens
+model EmailToken {
+    id        String         @id @default(cuid())
+    tokenHash String         @unique
+    type      EmailTokenType
+    userId    String
+    user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    expiresAt DateTime
+    usedAt    DateTime?
+    createdAt DateTime       @default(now())
+
+    @@index([userId, type])
+}
+
+// Har generate request ka record (image khud save nahi hoti)
+model ImageJob {
+    id           String    @id @default(cuid())
+    userId       String
+    user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    prompt       String
+    provider     String    @default("clipdrop")
+    status       JobStatus
+    errorMessage String?
+    createdAt    DateTime  @default(now())
+
+    @@index([userId, createdAt])
+}
+
+model CreditPurchase {
+    id              String   @id @default(cuid())
+    userId          String
+    user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    stripeSessionId String   @unique
+    packId          String
+    credits         Int
+    amountCents     Int
+    createdAt       DateTime @default(now())
+
+    @@index([userId])
+}
+
+// Stripe webhook dobara aaye to credits double na hon
+model StripeEvent {
+    id        String   @id
+    type      String
+    createdAt DateTime @default(now())
+}
+
+model RateLimitHit {
+    id        String   @id @default(cuid())
+    key       String
+    createdAt DateTime @default(now())
+
+    @@index([key, createdAt])
+}

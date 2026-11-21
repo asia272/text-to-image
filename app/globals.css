@@ -1,26 +1,22 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-outfit), system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Hamesha light theme, Figma jaisa mint se cream gradient */
+:root {
+  color-scheme: light;
+}
+
+html {
+  background-color: #f0fdfa !important;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  font-family: var(--font-outfit), system-ui, sans-serif;
+  color: #252525;
+  background-color: #f0fdfa;
+  background-image: linear-gradient(to bottom, #f0fdfa, #fff7ed);
 }
