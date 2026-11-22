@@ -123,7 +123,8 @@ export default function ResultPage() {
             {status !== "done" ? (
                 <form
                     onSubmit={handleSubmit}
-                    className="mt-8 flex w-full max-w-xl rounded-full bg-neutral-500 p-0.5 text-sm text-white"
+                    className={`mt-8 flex w-full max-w-xl rounded-full p-0.5 text-sm text-white transition-all duration-200 focus-within:bg-neutral-700 focus-within:ring-2 focus-within:ring-[#007AFF] ${prompt.trim() ? "bg-neutral-700" : "bg-neutral-500"
+                        }`}
                 >
                     <input
                         type="text"
@@ -132,7 +133,7 @@ export default function ResultPage() {
                         maxLength={1000}
                         placeholder="Describe what you want to generate"
                         aria-label="Describe what you want to generate"
-                        className="min-w-0 flex-1 bg-transparent px-6 outline-none placeholder:text-neutral-200"
+                        className="min-w-0 flex-1 bg-transparent px-6 outline-none placeholder:text-neutral-200 focus:placeholder:text-neutral-400"
                     />
                     <button
                         type="submit"

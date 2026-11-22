@@ -30,7 +30,7 @@ export default function HowItWorks() {
                     >
                         <Image src={ASSETS.steps[i]} alt="" width={40} height={40} className="size-10 shrink-0" />
                         <div>
-                            <h3 className="text-base font-medium sm:text-lg">{step.title}</h3>
+                            <h3 className="text-[16px] font-medium sm:text-lg">{step.title}</h3>
                             <p className="text-sm text-neutral-500">{step.text}</p>
                         </div>
                     </div>

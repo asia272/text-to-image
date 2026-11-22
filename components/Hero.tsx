@@ -10,7 +10,7 @@ export default function Hero() {
                 <Image src={ASSETS.starIcon} alt="" width={16} height={16} className="size-4" />
             </div>
 
-            <h1 className="mx-auto mt-8 max-w-[620px] text-[44px] leading-[1.05] sm:text-6xl lg:text-[80px] lg:leading-[80px]">
+            <h1 className="mx-auto mt-8 max-w-[660px] text-[44px] leading-[1.05] sm:text-6xl lg:text-[80px] lg:leading-[80px]">
                 Turn text to <span className="text-[#007AFF]">image</span>, in seconds.
             </h1>
 
@@ -21,7 +21,7 @@ export default function Hero() {
 
             <GenerateButton className="mt-8" />
 
-            <div className="mt-14 flex flex-wrap justify-center gap-1.5">
+            <div className="mt-14 flex flex-wrap justify-center gap-4 sm:gap-5">
                 {Array.from({ length: 6 }).map((_, i) => (
                     <Image
                         key={i}
